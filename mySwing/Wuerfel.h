@@ -1,1 +1,1 @@
-﻿void Wuerfel( GLfloat fSeitenL );
+void Wuerfel(GLfloat fSeitenL, float color[4]);

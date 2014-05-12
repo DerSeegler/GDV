@@ -8,7 +8,13 @@
 #include "wuerfel.h"
 #include <math.h>
 
-float fRotation = 315.0;
+//using namespace std;
+
+float fRotation = 0.0;
+float winkelGeschwindigekeit = 0.0;
+float winkel = 0.0;
+float winkel2 = 0.0;
+float x,y,z = 0.0;
 
 void Init()	
 {
@@ -16,12 +22,14 @@ void Init()
    // durchgeführt werden müssen
 	glEnable(GL_DEPTH_TEST);
 	glClearDepth(1.0);
+
 }
 
 void Zylinder(float height, float resolution, float radius, float color [4])
 {
 	resolution = 1 / resolution;
 	float i = 0;
+	float zero = 0;
 	glColor4f(color[0], color[1], color[2], color[3]);
 	glBegin(GL_TRIANGLE_FAN);
 	glVertex3f(0, height, 0);  /* center */
@@ -35,7 +43,7 @@ void Zylinder(float height, float resolution, float radius, float color [4])
 	glVertex3f(0, 0, 0);  /* center */
 	for (i = 2 * M_PI; i >= 0; i -= resolution)
 		glVertex3f(radius * cos(i), 0, radius * sin(i));
-	glVertex3f(radius * cos(0), height, radius * sin(0));
+	glVertex3f((radius * cos(zero)), height, radius * sin(zero));
 	/* close the loop back to 0 degrees */
 	glVertex3f(radius, height, 0);
 	glEnd();
@@ -90,18 +98,58 @@ void Rotorblaetter()
 
 void RenderScene() //Zeichenfunktion
 {
+
    // Hier befindet sich der Code der in jedem Frame ausgefuehrt werden muss
    glLoadIdentity ();   // Aktuelle Model-/View-Transformations-Matrix zuruecksetzen
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
    glClearColor(1.0, 0.6, 0.0, 1.0);
    //glTranslatef(0., 0., -1);
-   gluLookAt(0., 0., 6., 0., 0., 0., 0., 1., 0.);
+   gluLookAt(0.+x, 0.+y, 6.+z, 0., 0., 0., 0., 1., 0.);
 
    float braun [4] = { 0.4, 0.3, 0.3, 1. };
    float weiss[4] = { 1, 1, 1, 1. };
    float blau[4] = { 0, 0, 1, 1. };
    float silber[4] = { 0.75, 0.75, 0.75, 1. };
    float rot[4] = { 1., 0., 0., 1. };
+
+   // Tragestange
+   glPushMatrix();
+   glTranslatef(1.25, 2., 0.);
+   glRotatef(90, 0., 0., 1.);
+   Zylinder(2.5, 1000, 0.05, silber);
+   glPopMatrix();
+
+   // Standfuss oben links
+   glPushMatrix();
+   glTranslatef(-1.2, -0.584, -0.941);
+   glRotatef(20, 1., 0., 0.);
+   Zylinder(2.75, 1000, 0.05, silber);
+   glPopMatrix();
+
+   // Standfuss unten links
+   glPushMatrix();
+   glTranslatef(-1.2, -0.584, 0.941);
+   glRotatef(-20, 1., 0., 0.);
+   Zylinder(2.75, 1000, 0.05, silber);
+   glPopMatrix();
+
+   // Standfuss oben rechts
+   glPushMatrix();
+   glTranslatef(1.2, -0.584, -0.941);
+   glRotatef(20, 1., 0., 0.);
+   Zylinder(2.75, 1000, 0.05, silber);
+   glPopMatrix();
+
+   // Standfuss unten rechts
+   glPushMatrix();
+   glTranslatef(1.2, -0.584, 0.941);
+   glRotatef(-20, 1., 0., 0.);
+   Zylinder(2.75, 1000, 0.05, silber);
+   glPopMatrix();
+
+   glTranslatef(0, 2.0175, 0);
+   glRotatef(winkel, 1., 0., 0.);
+   glTranslatef(0, -2.0175, 0);
 
    // Sitzfläche
    glPushMatrix();
@@ -120,6 +168,36 @@ void RenderScene() //Zeichenfunktion
    glScalef(0.6, 0.25, 0.02);
    Wuerfel(1, blau);
    glPopMatrix();
+
+   // Seilbefestigung links
+   glPushMatrix();
+   glTranslatef(-0.375, 0., 0.);
+   glRotatef(90, 0., 0., 1.);
+   Zylinder(0.1, 1000, 0.035, braun);
+   glPopMatrix();
+
+   // Seilbefestigung rechts
+   glPushMatrix();
+   glTranslatef(0.475, 0., 0.);
+   glRotatef(90, 0., 0., 1.);
+   Zylinder(0.1, 1000, 0.035, braun);
+   glPopMatrix();
+
+   // Seil links
+   glPushMatrix();
+   glTranslatef(0.425, 0., 0.);
+   Zylinder(2., 1000, 0.02, blau);
+   glPopMatrix();
+
+   // Seil rechts
+   glPushMatrix();
+   glTranslatef(-0.425, 0., 0.);
+   Zylinder(2., 1000, 0.02, blau);
+   glPopMatrix();
+
+   glTranslatef(0, 0.2365, -0.185);
+   glRotatef(winkel2, 0., 0., 1.);
+   glTranslatef(0, -0.2365, 0.185);
 
    // Ventilator Befestigung
    glPushMatrix();
@@ -159,67 +237,6 @@ void RenderScene() //Zeichenfunktion
    glPopMatrix();
    glPopMatrix();
 
-   // Seilbefestigung links
-   glPushMatrix();
-   glTranslatef(-0.375, 0., 0.);
-   glRotatef(90, 0., 0., 1.);
-   Zylinder(0.1, 1000, 0.035, braun);
-   glPopMatrix();
-
-   // Seilbefestigung rechts
-   glPushMatrix();
-   glTranslatef(0.475, 0., 0.);
-   glRotatef(90, 0., 0., 1.);
-   Zylinder(0.1, 1000, 0.035, braun);
-   glPopMatrix();
-
-   // Seil links
-   glPushMatrix();
-   glTranslatef(0.425, 0., 0.);
-   Zylinder(2., 1000, 0.02, blau);
-   glPopMatrix();
-
-   // Seil rechts
-   glPushMatrix();
-   glTranslatef(-0.425, 0., 0.);
-   Zylinder(2., 1000, 0.02, blau);
-   glPopMatrix();
-
-   // Tragestange
-   glPushMatrix();
-   glTranslatef(1.25, 2., 0.);
-   glRotatef(90, 0., 0., 1.);
-   Zylinder(2.5, 1000, 0.05, silber);
-   glPopMatrix();
-
-   // Standfuss oben links
-   glPushMatrix();
-   glTranslatef(-1.2, -0.584, -0.941);
-   glRotatef(20, 1., 0., 0.);
-   Zylinder(2.75, 1000, 0.05, silber);
-   glPopMatrix();
-
-   // Standfuss unten links
-   glPushMatrix();
-   glTranslatef(-1.2, -0.584, 0.941);
-   glRotatef(-20, 1., 0., 0.);
-   Zylinder(2.75, 1000, 0.05, silber);
-   glPopMatrix();
-
-   // Standfuss oben rechts
-   glPushMatrix();
-   glTranslatef(1.2, -0.584, -0.941);
-   glRotatef(20, 1., 0., 0.);
-   Zylinder(2.75, 1000, 0.05, silber);
-   glPopMatrix();
-
-   // Standfuss unten rechts
-   glPushMatrix();
-   glTranslatef(1.2, -0.584, 0.941);
-   glRotatef(-20, 1., 0., 0.);
-   Zylinder(2.75, 1000, 0.05, silber);
-   glPopMatrix();
-
    glutSwapBuffers();
    glFlush(); //Buffer leeren   
 }
@@ -247,15 +264,42 @@ void Animate (int value)
    // erforderlich sind. Dieser Prozess läuft im Hintergrund und wird alle 
    // 1000 msec aufgerufen. Der Parameter "value" wird einfach nur um eins 
    // inkrementiert und dem Callback wieder uebergeben. 
-   std::cout << "value=" << value << std::endl;
+  // std::cout << "value=" << value << std::endl;
    // RenderScene aufrufen
    glutPostRedisplay();
-   fRotation = fRotation - 1.0;  // Rotationswinkel aendern 
+
+   
+  
+   fRotation = fRotation - 0.1;  // Rotationswinkel aendern 
    if (fRotation <= 0.0) {
-	   fRotation = fRotation + 360.0;
+	   fRotation = fRotation + 6.3;
    }
+
+   winkel = sin(fRotation) * 60;
+
+   winkel2 = winkel2 - 10;  // Rotationswinkel aendern 
+   if (winkel2 <= 0.0) {
+	   winkel2 = winkel2 + 360;
+   }
+
+  // winkelGeschwindigekeit = - g/2 * sin(
+
+  // std::cout << fRotation << std::endl;
    // Timer wieder registrieren; Animate wird so nach 100 msec mit value+=1 aufgerufen
-   glutTimerFunc(100, Animate, ++value);          
+   glutTimerFunc(5, Animate, ++value);          
+}
+
+void KeyboardFunc ( unsigned char key, int x, int y )
+{
+	switch (key){
+	case 'w': z--; break;
+	case 'a': x--; break;
+	case 's': z++; break;
+	case 'd': x++; break;
+	}
+
+    // RenderScene aufrufen.
+    glutPostRedisplay();
 }
 
 int main(int argc, char **argv)
@@ -266,6 +310,7 @@ int main(int argc, char **argv)
    glutCreateWindow( "Tom Mongan; Yannik Seegel" );   // Fenster-Erzeugung
    glutDisplayFunc( RenderScene );         // Zeichenfunktion bekannt machen
    glutReshapeFunc( Reshape );
+   glutKeyboardFunc( KeyboardFunc );
    // TimerCallback registrieren; wird nach 10 msec aufgerufen mit Parameter 0  
    glutTimerFunc( 10, Animate, 0);
    Init();

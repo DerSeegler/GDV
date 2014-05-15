@@ -1,1 +1,1 @@
-void Wuerfel(GLfloat fSeitenL, float color[4]);
+void Wuerfel(GLfloat fSeitenL, GLuint texture, GLenum filterMode, float numberOfTiles);

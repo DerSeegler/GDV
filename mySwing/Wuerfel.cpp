@@ -22,9 +22,9 @@ void Wuerfel(GLfloat fSeitenL, GLuint texture, GLenum filterMode, float numberOf
 	glVertex3f(+fSeitenL/2.0f,-fSeitenL/2.0f,+fSeitenL/2.0f);
 	glTexCoord2d(numberOfTiles,0.0);
 	glVertex3f(+fSeitenL/2.0f,+fSeitenL/2.0f,+fSeitenL/2.0f);
-	glTexCoord2d(0.0,numberOfTiles);
-	glVertex3f(-fSeitenL/2.0f,+fSeitenL/2.0f,+fSeitenL/2.0f);
 	glTexCoord2d(numberOfTiles,numberOfTiles);
+	glVertex3f(-fSeitenL/2.0f,+fSeitenL/2.0f,+fSeitenL/2.0f);
+	glTexCoord2d(0.0,numberOfTiles);
 	glEnd();
 
 
@@ -35,9 +35,9 @@ void Wuerfel(GLfloat fSeitenL, GLuint texture, GLenum filterMode, float numberOf
 	glVertex3f(+fSeitenL/2.0f,-fSeitenL/2.0f,-fSeitenL/2.0f);
 	glTexCoord2d(numberOfTiles,0.0);
 	glVertex3f(+fSeitenL/2.0f,+fSeitenL/2.0f,-fSeitenL/2.0f);
-	glTexCoord2d(0.0,numberOfTiles);
-	glVertex3f(+fSeitenL/2.0f,+fSeitenL/2.0f,+fSeitenL/2.0f);
 	glTexCoord2d(numberOfTiles,numberOfTiles);
+	glVertex3f(+fSeitenL/2.0f,+fSeitenL/2.0f,+fSeitenL/2.0f);
+	glTexCoord2d(0.0,numberOfTiles);
 	glEnd();
 
 
@@ -48,9 +48,9 @@ void Wuerfel(GLfloat fSeitenL, GLuint texture, GLenum filterMode, float numberOf
 	glVertex3f(+fSeitenL/2.0f,-fSeitenL/2.0f,-fSeitenL/2.0f);
 	glTexCoord2d(numberOfTiles,0.0);
 	glVertex3f(-fSeitenL/2.0f,-fSeitenL/2.0f,-fSeitenL/2.0f);
-	glTexCoord2d(0.0,numberOfTiles);
-	glVertex3f(-fSeitenL/2.0f,+fSeitenL/2.0f,-fSeitenL/2.0f);
 	glTexCoord2d(numberOfTiles,numberOfTiles);
+	glVertex3f(-fSeitenL/2.0f,+fSeitenL/2.0f,-fSeitenL/2.0f);
+	glTexCoord2d(0.0,numberOfTiles);
 	glEnd();
 
 
@@ -61,9 +61,9 @@ void Wuerfel(GLfloat fSeitenL, GLuint texture, GLenum filterMode, float numberOf
 	glVertex3f(-fSeitenL/2.0f,-fSeitenL/2.0f,-fSeitenL/2.0f);
 	glTexCoord2d(numberOfTiles,0.0);
 	glVertex3f(-fSeitenL/2.0f,-fSeitenL/2.0f,+fSeitenL/2.0f);
-	glTexCoord2d(0.0,numberOfTiles);
-	glVertex3f(-fSeitenL/2.0f,+fSeitenL/2.0f,+fSeitenL/2.0f);
 	glTexCoord2d(numberOfTiles,numberOfTiles);
+	glVertex3f(-fSeitenL/2.0f,+fSeitenL/2.0f,+fSeitenL/2.0f);
+	glTexCoord2d(0.0,numberOfTiles);
 	glEnd();
 
 	glBegin(GL_POLYGON);   //Deckflaeche
@@ -73,9 +73,9 @@ void Wuerfel(GLfloat fSeitenL, GLuint texture, GLenum filterMode, float numberOf
 	glVertex3f(+fSeitenL/2.0f,+fSeitenL/2.0f,+fSeitenL/2.0f);
 	glTexCoord2d(numberOfTiles,0.0);
 	glVertex3f(+fSeitenL/2.0f,+fSeitenL/2.0f,-fSeitenL/2.0f);
-	glTexCoord2d(0.0,numberOfTiles);
-	glVertex3f(-fSeitenL/2.0f,+fSeitenL/2.0f,-fSeitenL/2.0f);
 	glTexCoord2d(numberOfTiles,numberOfTiles);
+	glVertex3f(-fSeitenL/2.0f,+fSeitenL/2.0f,-fSeitenL/2.0f);
+	glTexCoord2d(0.0,numberOfTiles);
 	glEnd();
 
 	glBegin(GL_POLYGON);   //Bodenflaeche
@@ -85,9 +85,9 @@ void Wuerfel(GLfloat fSeitenL, GLuint texture, GLenum filterMode, float numberOf
 	glVertex3f(+fSeitenL/2.0f,-fSeitenL/2.0f,-fSeitenL/2.0f);
 	glTexCoord2d(numberOfTiles,0.0);
 	glVertex3f(+fSeitenL/2.0f,-fSeitenL/2.0f,+fSeitenL/2.0f);
-	glTexCoord2d(0.0,numberOfTiles);
-	glVertex3f(-fSeitenL/2.0f,-fSeitenL/2.0f,+fSeitenL/2.0f);
 	glTexCoord2d(numberOfTiles,numberOfTiles);
+	glVertex3f(-fSeitenL/2.0f,-fSeitenL/2.0f,+fSeitenL/2.0f);
+	glTexCoord2d(0.0,numberOfTiles);
 	glEnd();
 
 	glDisable(GL_TEXTURE_2D);

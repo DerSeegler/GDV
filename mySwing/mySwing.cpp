@@ -4,11 +4,18 @@
 #define _USE_MATH_DEFINES
 
 #include <iostream> 
+#include <vector>
+#include <iomanip>
 #include <GL/freeglut.h>         //lädt alles für OpenGL
 #include "wuerfel.h"
 #include <math.h>
 #include "myBitmap.h"
-//using namespace std;
+
+#include <io.h> 
+#include <fcntl.h>
+
+
+using namespace std;
 
 float fRotation = 0.0;
 float winkelGeschwindigekeit = 0.0;
@@ -25,7 +32,7 @@ GLuint texture[NUM_TEXTURES];    //Textur-Pointer-Array
 GLenum filterMode = GL_LINEAR;
 GLuint texNum = 0; 
 float fSeitenL = 6;
-GLuint numberOfTiles = 100;
+GLuint numberOfTiles = 5;
 
 static void LoadGLTextures()     //Bitmaps laden und in Texturen umwandeln
 {
@@ -539,9 +546,9 @@ void KeyboardFunc ( int key, int x, int y )
 {
 	switch (key){
 	//case 'w': z--; break;
-	case GLUT_KEY_LEFT: CamRotation = CamRotation+5; break;
+	case GLUT_KEY_LEFT: CamRotation = CamRotation-5; break;
 	//case 's': CamRotation++; break;
-	case GLUT_KEY_RIGHT: CamRotation = CamRotation-5; break;
+	case GLUT_KEY_RIGHT: CamRotation = CamRotation+5; break;
 	case GLUT_KEY_DOWN: if(speed != 10) speed++; displaySpeed();  break;
 	case GLUT_KEY_UP: if(speed !=0) speed--; displaySpeed(); break;
 	}
@@ -555,6 +562,29 @@ int main(int argc, char **argv)
    glutInitDisplayMode( GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH );        
    glutInitWindowSize( 600, 600 );         // Fenster-Konfiguration
    glutCreateWindow( "Tom Mongan; Yannik Seegel" );   // Fenster-Erzeugung
+
+ 
+   cout << setw(45) << "Willkommen bei MySwing"  << endl;
+   cout << setw(54) << "Projekt von Tom Mongan und Yannik Seegel" << endl << endl;
+
+
+ /*  char* locale = setlocale(LC_ALL, "English"); // Get the CRT's current locale.
+    std::locale lollocale(locale);
+    setlocale(LC_ALL, locale); // Restore the CRT.
+    std::wcout.imbue(lollocale); // Now set the std::wcout to have the locale that we got from the CRT.
+    std::wcout << L'\u0444';
+
+	 SetConsoleOutputCP(65001); 
+    printf("ф\n");*/
+
+   cout << "Steuerung:" << endl;
+
+   cout << "Kamera nach links drehen \t - \t" << "Pfeil nach links"  << endl;
+   cout << "Kamera nach rechts drehen \t - \t" << "Pfeil nach rechts"  << endl;
+   cout << "Animation beschleunigen \t - \t" << "Pfeil nach oben"  << endl;
+   cout << "Animation verlangsamen \t\t - \t" << "Pfeil nach unten"  << endl;
+
+
    glutDisplayFunc( RenderScene );         // Zeichenfunktion bekannt machen
    glutReshapeFunc( Reshape );
   // glutKeyboardFunc( KeyboardFunc );

@@ -2,6 +2,7 @@
 // Hergenroether / Groch    Last Update: 29.07.2011
 
 #define _USE_MATH_DEFINES
+#define _CRT_SECURE_NO_DEPRECATE
 
 #include <iostream> 
 #include <vector>
@@ -99,12 +100,23 @@ void Init()
 	LoadGLTextures();            //Texturen Laden
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
+	GLfloat specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	GLfloat ambientLight[] = { 0.2, 0.2, 0.2, 1.0f };
+	GLfloat diffuseLight[] = { 1.0, 1.0, 1.0, 1.0 };
+	GLfloat emission[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+
 	// Licht
-    glEnable(GL_LIGHT0);
-    glEnable(GL_LIGHTING);
-    GLfloat light_position [] = {1.0, 1.0, 1., 0.0};
+	GLfloat light_position[] = { -fSeitenL + 0.2, fSeitenL - 3.5, -fSeitenL + 2.5, 0.0 };
+	glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
+	//glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
+	//glLightfv(GL_LIGHT0, GL_SPECULAR, specular);
     glLightfv(GL_LIGHT0, GL_POSITION, light_position ); // Licht Nr. 0 rechts oben
+	glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHTING);
     glEnable(GL_COLOR_MATERIAL);
+	//glColorMaterial(GL_BACK, GL_AMBIENT);
+	//glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
+	//glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emission);
     // z-Buffer
     glEnable(GL_DEPTH_TEST);
     glClearDepth(1.0);
@@ -329,6 +341,13 @@ void RenderScene() //Zeichenfunktion
    //glTranslatef(0., 0., -1);
   // gluLookAt(0.+x, 0.+y, 6.+z, 0., 0., 0., 0., 1., 0.);
    gluLookAt(6*sin(CamRotation / 180 * M_PI), 1.0, 6*cos(CamRotation / 180 * M_PI), 0., 0., 0., 0., 1., 0.);
+   GLfloat light_position[] = { -fSeitenL + 0.2, fSeitenL - 3.5, -fSeitenL + 2.5, 0.0 };
+   glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+
+   glPushMatrix();
+   glTranslatef(-fSeitenL + 0.2, fSeitenL - 3.5, -fSeitenL + 2.5);
+   glutWireCube(0.2);
+   glPopMatrix();
 
    float braun [4] = { 0.4, 0.3, 0.3, 1. };
    float weiss[4] = { 1, 1, 1, 1. };
@@ -583,7 +602,6 @@ int main(int argc, char **argv)
    cout << "Kamera nach rechts drehen \t - \t" << "Pfeil nach rechts"  << endl;
    cout << "Animation beschleunigen \t - \t" << "Pfeil nach oben"  << endl;
    cout << "Animation verlangsamen \t\t - \t" << "Pfeil nach unten"  << endl;
-
 
    glutDisplayFunc( RenderScene );         // Zeichenfunktion bekannt machen
    glutReshapeFunc( Reshape );
